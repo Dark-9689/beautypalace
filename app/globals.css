@@ -16,13 +16,13 @@
     --secondary-foreground: 270 67% 35%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 310 100% 94%;
-    --accent-foreground: 310 100% 34%;
+    --accent: 270 100% 98%;
+    --accent-foreground: 270 100% 45%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 346 83.3% 80%;
+    --ring: 270 83.3% 80%;
     --radius: 0.5rem;
     --font-playfair: "Playfair Display", serif;
     --font-inter: "Inter", sans-serif;
@@ -130,6 +130,22 @@
   box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
 }
 
+.modern-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.modern-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  color: white;
+}
+
 .modern-btn {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
@@ -171,6 +187,33 @@
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
   border-radius: 24px;
   padding: 2rem;
+}
+
+.modern-input {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(102, 126, 234, 0.1);
+  border-radius: 12px;
+  padding: 12px 16px;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.modern-input:focus {
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 1);
+}
+
+.modern-select {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(102, 126, 234, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.modern-select:focus {
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 /* GSAP Scroll Reveal Classes */
@@ -232,16 +275,6 @@
   display: none;
 }
 
-/* Smooth transitions for hero background */
-.transition-opacity {
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.duration-2000 {
-  transition-duration: 2000ms;
-}
-
 /* Responsive fixes */
 @media (max-width: 768px) {
   .container {
@@ -254,7 +287,8 @@
     margin: 1rem;
   }
 
-  .modern-btn-primary {
+  .modern-btn-primary,
+  .modern-btn-secondary {
     width: 100%;
     justify-content: center;
   }
@@ -271,17 +305,49 @@ html {
   max-width: 100%;
 }
 
-/* Remove focus ring conflicts */
-.focus\:ring-0:focus {
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+/* Custom animations for review form */
+.review-form-enter {
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
 }
 
-/* Line clamp utility */
-.line-clamp-3 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+.review-form-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: all 0.3s ease-out;
+}
+
+.review-form-exit {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.review-form-exit-active {
+  opacity: 0;
+  transform: scale(0.9) translateY(-20px);
+  transition: all 0.3s ease-in;
+}
+
+/* Star rating animations */
+.star-rating-enter {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.star-rating-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.2s ease-out;
+}
+
+/* Thank you message animations */
+.thank-you-enter {
+  opacity: 0;
+  transform: scale(0.8) rotateY(90deg);
+}
+
+.thank-you-enter-active {
+  opacity: 1;
+  transform: scale(1) rotateY(0deg);
+  transition: all 0.6s ease-out;
 }

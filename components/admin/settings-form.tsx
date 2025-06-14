@@ -55,14 +55,6 @@ export function SettingsForm() {
 
   return (
     <>
-      <div className="bg-blue-50 p-4 rounded-md border border-blue-200">
-        <h3 className="text-sm font-semibold text-blue-800 mb-1">Important Note</h3>
-        <p className="text-sm text-blue-700">
-          For security reasons, please change the default password after your first login. The admin panel gives you
-          access to manage services, appointments, reviews, and settings.
-        </p>
-      </div>
-
       <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader>

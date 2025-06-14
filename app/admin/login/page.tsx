@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Scissors, Eye, EyeOff } from "lucide-react"
+import { Scissors } from "lucide-react"
 import { toast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 
@@ -16,9 +16,9 @@ export default function AdminLogin() {
   const router = useRouter()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  // Update the handleSubmit function to check for our specific credentials
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -39,14 +39,6 @@ export default function AdminLogin() {
 
       // Check credentials
       if (username === "admin" && password === "beautypalace2023") {
-        // Set authentication cookie
-        document.cookie = "admin-auth=authenticated; path=/; max-age=86400; secure; samesite=strict"
-
-        toast({
-          title: "Login Successful",
-          description: "Welcome to Beauty Palace Admin Panel",
-        })
-
         router.push("/admin")
       } else {
         toast({
@@ -54,89 +46,67 @@ export default function AdminLogin() {
           description: "Invalid username or password. Please try again.",
           variant: "destructive",
         })
+        setIsLoading(false)
       }
     } catch (error) {
       toast({
         title: "Login Failed",
-        description: "An error occurred. Please try again.",
+        description: "Invalid username or password. Please try again.",
         variant: "destructive",
       })
-    } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-4">
-      <Card className="w-full max-w-md shadow-2xl border-0">
-        <CardHeader className="space-y-1 text-center pb-8">
-          <div className="flex justify-center mb-4">
-            <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-full shadow-lg">
-              <Scissors size={32} className="text-white" />
+    <div className="min-h-screen flex items-center justify-center bg-secondary/20 p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1 text-center">
+          <div className="flex justify-center mb-2">
+            <div className="bg-primary-foreground text-white p-2 rounded-full">
+              <Scissors size={24} />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold">Beauty Palace Admin</CardTitle>
+          <CardTitle className="text-2xl">Beauty Palace Admin</CardTitle>
           <CardDescription>Enter your credentials to access the admin panel</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
               <Input
                 id="username"
-                placeholder="Enter username"
+                placeholder="admin"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="h-12 border-2 border-purple-100 focus:border-purple-400 focus:ring-0"
                 required
               />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="text-xs text-purple-600 hover:text-purple-700"
-                >
-                  {showPassword ? "Hide" : "Show"}
-                </button>
+                <a href="#" className="text-xs text-primary-foreground hover:underline">
+                  Forgot password?
+                </a>
               </div>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 border-2 border-purple-100 focus:border-purple-400 focus:ring-0 pr-10"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
           </form>
         </CardContent>
         <CardFooter>
           <Button
-            className="w-full h-12 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold"
+            className="w-full bg-primary-foreground text-white hover:bg-primary-foreground/90"
             onClick={handleSubmit}
             disabled={isLoading}
           >
-            {isLoading ? (
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Signing in...
-              </div>
-            ) : (
-              "Sign In"
-            )}
+            {isLoading ? "Signing in..." : "Sign In"}
           </Button>
         </CardFooter>
       </Card>

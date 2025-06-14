@@ -7,27 +7,27 @@ import { ArrowRight } from "lucide-react"
 
 const heroSlides = [
   {
-    image: "https://ik.imagekit.io/Beautypalace/2148419396.jpg",
+    image: "https://ik.imagekit.io/Beautypalace/default-image.jpg",
     title: "Premium Beauty",
     subtitle: "Care for Women",
     description:
       "Experience luxury treatments and expert care at Beauty Palace. Transform your look with our skilled professionals.",
   },
   {
-    image: "https://ik.imagekit.io/Beautypalace/2148352939.jpg",
+    image: "https://ik.imagekit.io/Beautypalace/default-image.jpg",
     title: "Luxury Salon",
     subtitle: "Experience",
     description: "Indulge in our world-class beauty services designed to enhance your natural radiance and confidence.",
   },
   {
-    image: "https://ik.imagekit.io/Beautypalace/3729.jpg",
+    image: "https://ik.imagekit.io/Beautypalace/default-image.jpg",
     title: "Expert Beauty",
     subtitle: "Professionals",
     description:
       "Our skilled team of beauty experts is dedicated to providing personalized care and exceptional results.",
   },
   {
-    image: "https://ik.imagekit.io/Beautypalace/2148419343.jpg",
+    image: "https://ik.imagekit.io/Beautypalace/default-image.jpg",
     title: "Transform Your",
     subtitle: "Beauty Journey",
     description: "Discover the perfect blend of relaxation and transformation in our premium beauty sanctuary.",
@@ -36,7 +36,6 @@ const heroSlides = [
 
 export function HeroSection() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
-  const [nextSlideIndex, setNextSlideIndex] = useState(1)
   const heroRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLSpanElement>(null)
@@ -134,11 +133,10 @@ export function HeroSection() {
       })
     }, heroRef)
 
-    // Smooth slide transition
+    // Increased slide duration to 8 seconds
     const interval = setInterval(() => {
       setCurrentSlideIndex((prevIndex) => {
         const newIndex = prevIndex === heroSlides.length - 1 ? 0 : prevIndex + 1
-        setNextSlideIndex(newIndex === heroSlides.length - 1 ? 0 : newIndex + 1)
         return newIndex
       })
     }, 8000)
@@ -184,12 +182,12 @@ export function HeroSection() {
       id="home"
       className="relative min-h-screen flex items-center justify-center text-white overflow-hidden"
     >
-      {/* Smooth background transitions */}
+      {/* Dynamic background with smooth transitions */}
       {heroSlides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-2000 ease-in-out ${
-            index === currentSlideIndex ? "opacity-100" : "opacity-0"
+          className={`absolute inset-0 transition-all duration-1000 ${
+            index === currentSlideIndex ? "opacity-100 scale-100" : "opacity-0 scale-105"
           }`}
         >
           <img
@@ -198,7 +196,7 @@ export function HeroSection() {
             className="w-full h-full object-cover"
             loading={index === 0 ? "eager" : "lazy"}
           />
-          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 via-transparent to-pink-900/40" />
         </div>
       ))}
 
@@ -207,21 +205,33 @@ export function HeroSection() {
         <div className="max-w-4xl mx-auto text-center">
           <h1
             ref={titleRef}
-            className="text-4xl sm:text-5xl md:text-7xl font-bold mb-2 font-serif leading-tight text-white drop-shadow-lg"
+            className="text-4xl sm:text-5xl md:text-7xl font-bold mb-2 font-serif leading-tight"
+            style={{
+              background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
           >
             {currentSlide.title}
           </h1>
 
           <span
             ref={subtitleRef}
-            className="block text-3xl sm:text-4xl md:text-6xl font-bold mb-6 font-serif leading-tight text-white drop-shadow-lg"
+            className="block text-3xl sm:text-4xl md:text-6xl font-bold mb-6 font-serif leading-tight"
+            style={{
+              background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
           >
             {currentSlide.subtitle}
           </span>
 
           <p
             ref={descriptionRef}
-            className="text-lg sm:text-xl md:text-2xl mb-10 opacity-90 leading-relaxed max-w-2xl mx-auto px-4 text-white drop-shadow-md"
+            className="text-lg sm:text-xl md:text-2xl mb-10 opacity-90 leading-relaxed max-w-2xl mx-auto px-4"
           >
             {currentSlide.description}
           </p>

@@ -9,7 +9,7 @@ const services = [
     id: 1,
     name: "Signature Haircut",
     description: "Personalized cut and styling that complements your unique features and lifestyle",
-    duration: "1 hour",
+    duration: 60,
     image: "https://ik.imagekit.io/beautypalace/services/haircut.jpg",
     gradient: "gradient-bg",
     features: ["Consultation", "Wash & Cut", "Styling", "Finishing"],
@@ -18,7 +18,7 @@ const services = [
     id: 2,
     name: "Luxury Facial",
     description: "Deep cleansing and rejuvenating treatment for radiant, healthy skin",
-    duration: "1 hour 15 mins",
+    duration: 75,
     image: "https://ik.imagekit.io/beautypalace/services/facial.jpg",
     gradient: "gradient-bg-2",
     features: ["Deep Cleansing", "Exfoliation", "Mask Treatment", "Moisturizing"],
@@ -27,7 +27,7 @@ const services = [
     id: 3,
     name: "Hair Transformation",
     description: "Complete hair makeover with smoothing and professional styling",
-    duration: "2 hours",
+    duration: 120,
     image: "https://ik.imagekit.io/beautypalace/services/smoothing.jpg",
     gradient: "gradient-bg-3",
     features: ["Hair Analysis", "Smoothing Treatment", "Styling", "Care Tips"],
@@ -36,7 +36,7 @@ const services = [
     id: 4,
     name: "Keratin Therapy",
     description: "Professional treatment for stronger, healthier, and more manageable hair",
-    duration: "2 hours 30 mins",
+    duration: 150,
     image: "https://ik.imagekit.io/beautypalace/services/keratin.jpg",
     gradient: "gradient-bg",
     features: ["Hair Assessment", "Keratin Application", "Heat Treatment", "Aftercare"],
@@ -45,7 +45,7 @@ const services = [
     id: 5,
     name: "Smooth Skin",
     description: "Professional waxing services for silky smooth, long-lasting results",
-    duration: "30 mins",
+    duration: 30,
     image: "https://ik.imagekit.io/beautypalace/services/waxing.jpg",
     gradient: "gradient-bg-2",
     features: ["Skin Preparation", "Professional Waxing", "Soothing Treatment", "Aftercare"],
@@ -54,7 +54,7 @@ const services = [
     id: 6,
     name: "Glamour Makeup",
     description: "Professional makeup artistry for your most special moments and occasions",
-    duration: "1 hour",
+    duration: 60,
     image: "https://ik.imagekit.io/beautypalace/services/makeup.jpg",
     gradient: "gradient-bg-3",
     features: ["Consultation", "Base Application", "Eye & Lip Makeup", "Final Touch-ups"],
@@ -96,7 +96,7 @@ export default function ServicesSection() {
 
         {/* Mobile Horizontal Scroll */}
         <div className="sm:hidden">
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide px-4">
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
             {services.map((service, index) => (
               <div key={service.id} className="flex-shrink-0 w-80">
                 <ServiceCard service={service} index={index} onBook={handleBookService} />
@@ -138,7 +138,7 @@ function ServiceCard({ service, index, onBook }: { service: any; index: number; 
           <div className="mb-4">
             <div className="flex items-center text-muted-foreground mb-3">
               <Clock size={16} className="mr-2" />
-              <span className="text-sm">{service.duration}</span>
+              <span className="text-sm">{service.duration} minutes</span>
             </div>
 
             <div className="space-y-1">

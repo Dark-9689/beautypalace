@@ -32,12 +32,6 @@ export function AdminSidebar() {
     router.push("/")
   }
 
-  const handleLogout = () => {
-    // Clear authentication cookie
-    document.cookie = "admin-auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
-    router.push("/admin/login")
-  }
-
   return (
     <>
       {/* Mobile menu button */}
@@ -87,7 +81,7 @@ export function AdminSidebar() {
           <Button
             variant="outline"
             className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-            onClick={handleLogout}
+            onClick={() => (window.location.href = "/admin/login")}
           >
             <LogOut size={16} className="mr-2" />
             Logout
@@ -139,7 +133,7 @@ export function AdminSidebar() {
               <Button
                 variant="outline"
                 className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 py-4"
-                onClick={handleLogout}
+                onClick={() => (window.location.href = "/admin/login")}
               >
                 <LogOut size={18} className="mr-2" />
                 <span className="text-lg">Logout</span>

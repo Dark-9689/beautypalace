@@ -37,9 +37,9 @@ export default function AdminAccess() {
             </div>
           </div>
 
-          <div className="bg-blue-50 p-4 rounded-md border border-blue-200">
-            <h3 className="text-sm font-semibold text-blue-800 mb-1">Important Note</h3>
-            <p className="text-sm text-blue-700">
+          <div className="bg-yellow-50 p-4 rounded-md border border-yellow-200">
+            <h3 className="text-sm font-semibold text-yellow-800 mb-1">Important Note</h3>
+            <p className="text-sm text-yellow-700">
               For security reasons, please change the default password after your first login. The admin panel gives you
               access to manage services, appointments, reviews, and settings.
             </p>

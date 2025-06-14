@@ -36,12 +36,12 @@ const timeSlots = [
 ]
 
 const services = [
-  { value: "haircut", label: "Signature Haircut", duration: "1 hour", price: "$60" },
-  { value: "facial", label: "Luxury Facial", duration: "1 hour 15 mins", price: "$85" },
-  { value: "smoothing", label: "Hair Transformation", duration: "2 hours", price: "$120" },
-  { value: "keratin", label: "Keratin Therapy", duration: "2 hours 30 mins", price: "$150" },
-  { value: "waxing", label: "Smooth Skin", duration: "30 mins", price: "$40" },
-  { value: "makeup", label: "Glamour Makeup", duration: "1 hour", price: "$75" },
+  { value: "haircut", label: "Signature Haircut", duration: "60 min" },
+  { value: "facial", label: "Luxury Facial", duration: "75 min" },
+  { value: "smoothing", label: "Hair Transformation", duration: "120 min" },
+  { value: "keratin", label: "Keratin Therapy", duration: "150 min" },
+  { value: "waxing", label: "Smooth Skin", duration: "30 min" },
+  { value: "makeup", label: "Glamour Makeup", duration: "60 min" },
 ]
 
 const isSlotUnavailable = (date: Date, slot: string): boolean => {
@@ -57,7 +57,7 @@ const isSlotUnavailable = (date: Date, slot: string): boolean => {
 // WhatsApp notification functions
 const sendClientConfirmation = (bookingData: any) => {
   const message = encodeURIComponent(
-    `Hello ${bookingData.name}! 🌟\n\nYour appointment at Beauty Palace has been confirmed!\n\n📅 Date: ${format(bookingData.date, "MMMM d, yyyy")}\n⏰ Time: ${bookingData.timeSlot}\n💄 Service: ${bookingData.serviceName}\n💰 Price: ${bookingData.price}\n\nWe look forward to pampering you! If you need to reschedule, please let us know 24 hours in advance.\n\nThank you for choosing Beauty Palace! ✨`,
+    `Hello ${bookingData.name}! 🌟\n\nYour appointment at Beauty Palace has been confirmed!\n\n📅 Date: ${format(bookingData.date, "MMMM d, yyyy")}\n⏰ Time: ${bookingData.timeSlot}\n💄 Service: ${bookingData.serviceName}\n⏱️ Duration: ${bookingData.duration}\n\nWe look forward to pampering you! If you need to reschedule, please let us know 24 hours in advance.\n\nThank you for choosing Beauty Palace! ✨`,
   )
   const phoneNumber = bookingData.phone.replace(/[^\d]/g, "")
   window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank")
@@ -66,7 +66,7 @@ const sendClientConfirmation = (bookingData: any) => {
 const sendOwnerNotification = (bookingData: any) => {
   const ownerPhone = "1234567890" // Replace with actual owner's WhatsApp number
   const message = encodeURIComponent(
-    `🔔 NEW BOOKING ALERT!\n\n👤 Client: ${bookingData.name}\n📞 Phone: ${bookingData.phone}\n💄 Service: ${bookingData.serviceName}\n📅 Date: ${format(bookingData.date, "MMMM d, yyyy")}\n⏰ Time: ${bookingData.timeSlot}\n💰 Price: ${bookingData.price}\n\nPlease confirm the appointment and prepare for the service.`,
+    `🔔 NEW BOOKING ALERT!\n\n👤 Client: ${bookingData.name}\n📞 Phone: ${bookingData.phone}\n💄 Service: ${bookingData.serviceName}\n📅 Date: ${format(bookingData.date, "MMMM d, yyyy")}\n⏰ Time: ${bookingData.timeSlot}\n⏱️ Duration: ${bookingData.duration}\n\nPlease confirm the appointment and prepare for the service.`,
   )
   window.open(`https://wa.me/${ownerPhone}?text=${message}`, "_blank")
 }
@@ -136,7 +136,7 @@ export default function BookingSection() {
         phone,
         service,
         serviceName: selectedService?.label || "",
-        price: selectedService?.price || "",
+        duration: selectedService?.duration || "",
         date: date!,
         timeSlot,
       }
@@ -195,7 +195,7 @@ export default function BookingSection() {
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <div ref={formRef} className="modern-form mx-4 sm:mx-0">
+          <div ref={formRef} className="modern-form">
             {!isSuccess ? (
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Personal Information */}
@@ -217,12 +217,9 @@ export default function BookingSection() {
                           setErrors(newErrors)
                         }
                       }}
-                      className={cn(
-                        "h-12 border-2 border-purple-100 focus:border-purple-400 focus:ring-0 bg-white",
-                        errors.name && "border-red-300 focus:border-red-400",
-                      )}
+                      className={cn("modern-input", errors.name && "border-destructive")}
                     />
-                    {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+                    {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -245,12 +242,9 @@ export default function BookingSection() {
                           setErrors(newErrors)
                         }
                       }}
-                      className={cn(
-                        "h-12 border-2 border-purple-100 focus:border-purple-400 focus:ring-0 bg-white",
-                        errors.phone && "border-red-300 focus:border-red-400",
-                      )}
+                      className={cn("modern-input", errors.phone && "border-destructive")}
                     />
-                    {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
+                    {errors.phone && <p className="text-xs text-destructive mt-1">{errors.phone}</p>}
                   </div>
                 </div>
 
@@ -271,15 +265,10 @@ export default function BookingSection() {
                       }
                     }}
                   >
-                    <SelectTrigger
-                      className={cn(
-                        "h-14 border-2 border-purple-100 focus:border-purple-400 focus:ring-0 bg-white",
-                        errors.service && "border-red-300",
-                      )}
-                    >
+                    <SelectTrigger className={cn("modern-select h-14", errors.service && "border-destructive")}>
                       <SelectValue placeholder="Choose your service" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-2 border-purple-100 shadow-lg max-h-60 overflow-y-auto">
+                    <SelectContent className="bg-white border-purple-200">
                       {services.map((serviceOption) => (
                         <SelectItem
                           key={serviceOption.value}
@@ -287,26 +276,30 @@ export default function BookingSection() {
                           className="py-3 hover:bg-purple-50"
                         >
                           <div className="flex justify-between items-center w-full">
-                            <div>
-                              <div className="font-medium">{serviceOption.label}</div>
-                              <div className="text-sm text-muted-foreground">{serviceOption.duration}</div>
+                            <div className="text-left">
+                              <div className="font-medium text-purple-700">{serviceOption.label}</div>
+                              <div className="text-sm text-purple-500 flex items-center gap-1">
+                                <Clock size={12} />
+                                {serviceOption.duration}
+                              </div>
                             </div>
-                            <div className="font-bold text-purple-600 ml-4">{serviceOption.price}</div>
                           </div>
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   {selectedService && (
-                    <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                    <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
                       <div className="flex justify-between items-center">
-                        <span className="font-medium">{selectedService.label}</span>
-                        <span className="text-purple-600 font-bold">{selectedService.price}</span>
+                        <span className="font-medium text-purple-700">{selectedService.label}</span>
+                        <span className="text-purple-600 font-medium flex items-center gap-1">
+                          <Clock size={14} />
+                          {selectedService.duration}
+                        </span>
                       </div>
-                      <div className="text-sm text-muted-foreground">Duration: {selectedService.duration}</div>
                     </div>
                   )}
-                  {errors.service && <p className="text-xs text-red-500 mt-1">{errors.service}</p>}
+                  {errors.service && <p className="text-xs text-destructive mt-1">{errors.service}</p>}
                 </div>
 
                 {/* Date and Time Selection */}
@@ -321,9 +314,9 @@ export default function BookingSection() {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-14 border-2 border-purple-100 focus:border-purple-400 bg-white hover:bg-purple-50",
+                            "w-full justify-start text-left font-normal h-14 modern-select",
                             !date && "text-muted-foreground",
-                            errors.date && "border-red-300",
+                            errors.date && "border-destructive",
                           )}
                           onClick={() => {
                             if (errors.date) {
@@ -337,10 +330,7 @@ export default function BookingSection() {
                           {date ? format(date, "EEEE, MMMM d, yyyy") : <span>Pick a date</span>}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent
-                        className="w-auto p-0 bg-white border-2 border-purple-100 shadow-lg"
-                        align="start"
-                      >
+                      <PopoverContent className="w-auto p-0 bg-white border-purple-200" align="start">
                         <Calendar
                           mode="single"
                           selected={date}
@@ -354,7 +344,7 @@ export default function BookingSection() {
                         />
                       </PopoverContent>
                     </Popover>
-                    {errors.date && <p className="text-xs text-red-500 mt-1">{errors.date}</p>}
+                    {errors.date && <p className="text-xs text-destructive mt-1">{errors.date}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -374,12 +364,7 @@ export default function BookingSection() {
                       }}
                       disabled={!date}
                     >
-                      <SelectTrigger
-                        className={cn(
-                          "h-14 border-2 border-purple-100 focus:border-purple-400 focus:ring-0 bg-white",
-                          errors.timeSlot && "border-red-300",
-                        )}
-                      >
+                      <SelectTrigger className={cn("modern-select h-14", errors.timeSlot && "border-destructive")}>
                         <SelectValue placeholder="Choose time">
                           {timeSlot ? (
                             <div className="flex items-center">
@@ -391,7 +376,7 @@ export default function BookingSection() {
                           )}
                         </SelectValue>
                       </SelectTrigger>
-                      <SelectContent className="bg-white border-2 border-purple-100 shadow-lg max-h-60">
+                      <SelectContent className="bg-white max-h-60 border-purple-200">
                         {timeSlots.map((slot) => (
                           <SelectItem
                             key={slot}
@@ -407,7 +392,7 @@ export default function BookingSection() {
                         ))}
                       </SelectContent>
                     </Select>
-                    {errors.timeSlot && <p className="text-xs text-red-500 mt-1">{errors.timeSlot}</p>}
+                    {errors.timeSlot && <p className="text-xs text-destructive mt-1">{errors.timeSlot}</p>}
                   </div>
                 </div>
 

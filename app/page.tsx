@@ -1,9 +1,6 @@
-"use client"
-
-import { Suspense, lazy, useState, useEffect } from "react"
+import { Suspense, lazy } from "react"
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
-import { LoadingScreen } from "@/components/loading-screen"
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 
 // Lazy load components
@@ -15,21 +12,6 @@ const ContactSection = lazy(() => import("@/components/contact-section"))
 const Footer = lazy(() => import("@/components/footer"))
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    // Simulate initial loading
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  if (isLoading) {
-    return <LoadingScreen />
-  }
-
   return (
     <main className="min-h-screen">
       <Navbar />
